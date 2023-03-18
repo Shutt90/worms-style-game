@@ -9,20 +9,20 @@ use crate::player::components::*;
 pub fn spawn_target(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
-    mut player_query: Query<&mut Transform, With<Player>>
+    player_query: Query<&Player>,
 ) {
     let window = window_query.get_single().unwrap();
 
-    if let Ok(mut player_transform) = player_query.get_single_mut() {
+    if let Ok(player) = player_query.get_single() {
         for _ in 0..NUMBER_OF_ENEMIES {
             let mut random_x = random::<f32>() * window.width();
             let mut random_y = random::<f32>() * window.height();
 
-            while random_x <= player_transform.translation.x + 10. && random_x >= player_transform.translation.x - 10. {
+            while random_x <= player.x + 10. && random_x >= player.x - 10. {
                 random_x = random::<f32>() * window.width();
             }
 
-            while random_x <= player_transform.translation.x + 10. && random_x >= player_transform.translation.x - 10. {
+            while random_y <= player.y + 10. && random_x >= player.y - 10. {
                 random_y = random::<f32>() * window.height();
             }
 
@@ -41,7 +41,5 @@ pub fn spawn_target(
                 )
             );
         }
-    } else {
-        println!("wtf")
     }
 }

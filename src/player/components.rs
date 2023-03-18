@@ -1,11 +1,17 @@
 use bevy::prelude::*;
 
-#[derive(Component)]
-pub struct Player {}
+#[derive(Component, Debug)]
+pub struct Player {
+    pub x: f32,
+    pub y: f32,
+    pub z: f32,
+}
 
-
 #[derive(Component)]
-pub struct Aim {}
+pub struct Aim {
+    pub w: f32,
+    pub h: f32,
+}
 
 pub const SPRITE_SIZE: BlockSize = BlockSize{w:25., h:100.};
 

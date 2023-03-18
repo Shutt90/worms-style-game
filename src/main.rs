@@ -10,9 +10,9 @@ use target::TargetPlugin;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_startup_system(spawn_camera)
         .add_plugin(PlayerPlugin)
         .add_plugin(TargetPlugin)
-        .add_startup_system(spawn_camera)
         .run();
 }
 

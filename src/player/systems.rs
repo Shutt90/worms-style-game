@@ -21,39 +21,38 @@ pub fn spawn_player(
                     custom_size: Some(Vec2::new(SPRITE_SIZE.w, SPRITE_SIZE.h)),
                     ..default()
                 },
-                transform: Transform::from_xyz(player.x, player.x, player.z),
+                transform: Transform::from_xyz(player.x, player.y, player.z),
                 ..default()
             },
             player,
         )
     );
+
+    spawn_aim_for_player(commands, player.clone())
 }
 
 pub fn spawn_aim_for_player(
-    player_query: Query<&Player>,
     mut commands: Commands,
+    player: Player,
 ) {
     let crosshair: Aim = Aim {
-        w: 15.,
-        h: 15.
+        w: 5.,
+        h: 5.
     };
 
-    if let Ok(player) = player_query.get_single() {
-        commands.spawn((
-            SpriteBundle {
-                sprite: Sprite {
-                    color: Color::RED,
-                    custom_size: Some(Vec2::new(10.,10.)),
-                    ..default()
-                },
-                transform: Transform::from_xyz(player.x + 15. - crosshair.w / 2., player.y - crosshair.h / 2., player.z),
+    commands.spawn((
+        SpriteBundle {
+            sprite: Sprite {
+                color: Color::RED,
+                custom_size: Some(Vec2::new(crosshair.w, crosshair.h)),
                 ..default()
             },
-            crosshair,
-        ));
-    } else {
-        panic!("error: '{:?}'", player_query.get_single());
-    }
+            transform: Transform::from_xyz(player.x + 50., player.y, 0.),
+            ..default()
+        },
+        crosshair,
+    ));
+    
 }
 
 pub fn check_positons(

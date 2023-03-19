@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use super::components::*;
 use crate::player::Power;
+use bevy_rapier2d::prelude::*;
 
 const AIM_SPEED: f32 = 10.;
 const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
@@ -77,28 +78,46 @@ pub fn control_aim(
 }
 
 pub fn add_power(
-    mut aim_query: Query<&mut Transform, With<Aim>>,
-    time: Res<Time>,
-    window_query: Query<&Window, With<PrimaryWindow>>,
+    commands: Commands,
     keyboard_input: Res<Input<KeyCode>>,
     mut power: ResMut<Power>,
 ) {
-    let window = window_query.get_single().unwrap();
-    if let Ok(mut aim) = aim_query.get_single_mut()  {
-        if keyboard_input.pressed(KeyCode::Space) {
-            if power.reverse == false {
-                power.total +=1;
-                if power.total == 100 {
-                    power.reverse = true;
-                }
-            } else if power.reverse == true {
-                power.total -= 1;
-                if power.total == 0 {
-                    power.reverse = false;
-                }
+    if keyboard_input.pressed(KeyCode::Space) {
+        if power.reverse == false {
+            power.total +=1.;
+            if power.total == 100. {
+                power.reverse = true;
+            }
+        } else if power.reverse == true {
+            power.total -= 1.;
+            if power.total == 0. {
+                power.reverse = false;
             }
         }
-
-        println!("{:?}", power);
     }
+
+    println!("{:?}", power.total);
+
+    if keyboard_input.just_released(KeyCode::Space) {
+        fire_projectile(commands, power)
+    }
+}
+
+pub fn fire_projectile(
+    mut commands: Commands,
+    mut power: ResMut<Power>,
+) {
+    commands.spawn(
+        RigidBody::Dynamic
+    ).insert(TransformBundle::from(Transform::from_xyz(0.0, 5.0, 0.0)))
+    .insert(Velocity {
+        linvel: Vec2::new(power.total, 0.),
+        angvel: 0.2
+    })
+    .insert(GravityScale(0.5));
+
+    println!("fired_projectile: {:?} distance", power.total);
+
+    power.total = 0.;
+    power.reverse = false;
 }

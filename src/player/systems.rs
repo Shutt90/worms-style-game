@@ -2,6 +2,9 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use super::components::*;
 
+const AIM_SPEED: f32 = 10.;
+const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
+
 pub fn spawn_player(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
@@ -47,7 +50,7 @@ pub fn spawn_aim_for_player(
                 custom_size: Some(Vec2::new(crosshair.w, crosshair.h)),
                 ..default()
             },
-            transform: Transform::from_xyz(player.x + 50., player.y, 0.),
+            transform: Transform::from_xyz(player.x + CROSSHAIR_DISTANCE_FROM_PLAYER, player.y, 0.),
             ..default()
         },
         crosshair,
@@ -56,12 +59,18 @@ pub fn spawn_aim_for_player(
 }
 
 pub fn check_positons(
-    player_query: Query<&Transform, With<Player>>,
-    aim_query: Query<&Transform, With<Aim>>
+    mut aim_query: Query<&mut Transform, With<Aim>>,
+    time: Res<Time>,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    keyboard_input: Res<Input<KeyCode>>,
 ) {
-    if let Ok(player)= player_query.get_single()  {
-        if let Ok(aim) = aim_query.get_single()  {
-            println!("{}, {}", aim.translation.x, player.translation.x); 
+    let window = window_query.get_single().unwrap();
+    if let Ok(mut aim) = aim_query.get_single_mut()  {
+        if keyboard_input.pressed(KeyCode::W) {
+            aim.rotate_around(Vec3::new(window.width() / 2., window.height() / 2., 0.), Quat::from_rotation_z(1. * time.delta_seconds() * AIM_SPEED));
+        }
+        if keyboard_input.pressed(KeyCode::S) {
+            aim.rotate_around(Vec3::new(window.width() / 2., window.height() / 2., 0.), Quat::from_rotation_z(-1. * -time.delta_seconds() * -AIM_SPEED));
         }
     }
 }

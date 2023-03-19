@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use super::components::*;
+use crate::player::Power;
 
 const AIM_SPEED: f32 = 10.;
 const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
@@ -58,7 +59,7 @@ pub fn spawn_aim_for_player(
     
 }
 
-pub fn check_positons(
+pub fn control_aim(
     mut aim_query: Query<&mut Transform, With<Aim>>,
     time: Res<Time>,
     window_query: Query<&Window, With<PrimaryWindow>>,
@@ -72,5 +73,32 @@ pub fn check_positons(
         if keyboard_input.pressed(KeyCode::S) {
             aim.rotate_around(Vec3::new(window.width() / 2., window.height() / 2., 0.), Quat::from_rotation_z(-1. * -time.delta_seconds() * -AIM_SPEED));
         }
+    }
+}
+
+pub fn add_power(
+    mut aim_query: Query<&mut Transform, With<Aim>>,
+    time: Res<Time>,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    keyboard_input: Res<Input<KeyCode>>,
+    mut power: ResMut<Power>,
+) {
+    let window = window_query.get_single().unwrap();
+    if let Ok(mut aim) = aim_query.get_single_mut()  {
+        if keyboard_input.pressed(KeyCode::Space) {
+            if power.reverse == false {
+                power.total +=1;
+                if power.total == 100 {
+                    power.reverse = true;
+                }
+            } else if power.reverse == true {
+                power.total -= 1;
+                if power.total == 0 {
+                    power.reverse = false;
+                }
+            }
+        }
+
+        println!("{:?}", power);
     }
 }

@@ -81,43 +81,70 @@ pub fn add_power(
     commands: Commands,
     keyboard_input: Res<Input<KeyCode>>,
     mut power: ResMut<Power>,
+    window_query: Query<&Window, With<PrimaryWindow>>,
+    aim_query: Query<&Transform, With<Aim>>,
 ) {
+    let window = window_query.get_single().unwrap();
     if keyboard_input.pressed(KeyCode::Space) {
         if power.reverse == false {
-            power.total +=1.;
-            if power.total == 100. {
+            power.total +=0.5;
+            if power.total == 50. {
                 power.reverse = true;
             }
         } else if power.reverse == true {
-            power.total -= 1.;
+            power.total -= 0.5;
             if power.total == 0. {
                 power.reverse = false;
             }
         }
     }
 
-    println!("{:?}", power.total);
-
     if keyboard_input.just_released(KeyCode::Space) {
-        fire_projectile(commands, power)
+        let position = calculate_position_of_crosshair(aim_query, window);
+        fire_projectile(commands, power, window, position)
     }
 }
 
 pub fn fire_projectile(
     mut commands: Commands,
     mut power: ResMut<Power>,
+    window: &Window,
+    position: Position
 ) {
     commands.spawn(
         RigidBody::Dynamic
-    ).insert(TransformBundle::from(Transform::from_xyz(0.0, 5.0, 0.0)))
-    .insert(Velocity {
-        linvel: Vec2::new(power.total, 0.),
-        angvel: 0.2
+    )
+    .insert(SpriteBundle {
+        sprite: Sprite {
+            color: Color::RED,
+            custom_size: Some(Vec2::new(10., 10.)),
+            ..default()
+        },
+        ..default()
     })
-    .insert(GravityScale(0.5));
+    .insert(Velocity {
+        linvel: Vec2::new(position.x * power.total, position.y* power.total),
+        angvel: 0.6
+    })
+    .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
+    .insert(GravityScale(1.));
 
     println!("fired_projectile: {:?} distance", power.total);
 
     power.total = 0.;
     power.reverse = false;
+}
+
+pub fn calculate_position_of_crosshair(
+    aim_query: Query<&Transform, With<Aim>>,
+    window: &Window
+) -> Position{
+    let mut pos: Position =  Position { x: 0., y: 0.};
+
+    if let Ok(aim) = aim_query.get_single()  {
+        pos.x = aim.translation.x - window.width() / 2.;
+        pos.y = aim.translation.y - window.height() / 2.;
+    }
+
+    return pos
 }

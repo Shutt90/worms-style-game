@@ -19,3 +19,9 @@ pub struct BlockSize {
     pub w: f32,
     pub h: f32,
 }
+
+#[derive(Debug)]
+pub struct Position {
+    pub x: f32,
+    pub y: f32,
+}

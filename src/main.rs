@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
+use bevy_rapier2d::prelude::*;
 
 mod player;
 mod target;
@@ -10,6 +11,7 @@ use target::TargetPlugin;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .add_startup_system(spawn_camera)
         .add_plugin(PlayerPlugin)
         .add_plugin(TargetPlugin)

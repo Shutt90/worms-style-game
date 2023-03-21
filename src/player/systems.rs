@@ -6,6 +6,8 @@ use bevy_rapier2d::prelude::*;
 
 const AIM_SPEED: f32 = 10.;
 const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
+const MISSILE_POWER_VELOCITY: f32 = 0.25;
+const MISSILE_MASS: f32 = 20.;
 
 pub fn spawn_player(
     mut commands: Commands,
@@ -87,12 +89,12 @@ pub fn add_power(
     let window = window_query.get_single().unwrap();
     if keyboard_input.pressed(KeyCode::Space) {
         if power.reverse == false {
-            power.total +=0.5;
-            if power.total == 50. {
+            power.total += MISSILE_POWER_VELOCITY;
+            if power.total == MISSILE_POWER_VELOCITY * 10. {
                 power.reverse = true;
             }
         } else if power.reverse == true {
-            power.total -= 0.5;
+            power.total -= MISSILE_POWER_VELOCITY;
             if power.total == 0. {
                 power.reverse = false;
             }
@@ -127,7 +129,8 @@ pub fn fire_projectile(
         angvel: 0.6
     })
     .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
-    .insert(GravityScale(1.));
+    .insert(GravityScale(1.))
+    .insert(AdditionalMassProperties::Mass(MISSILE_MASS));
 
     println!("fired_projectile: {:?} distance", power.total);
 

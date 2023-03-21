@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use rand::prelude::*;
+use bevy_rapier2d::prelude::Collider;
 
 use super::components::*;
 use super::resources::*;
@@ -40,6 +41,6 @@ pub fn spawn_target(
                 },
                 Target{},
             )
-        );
+        ).insert(Collider::cuboid(SPRITE_SIZE.w / 2., SPRITE_SIZE.h / 2.));
     }
 }

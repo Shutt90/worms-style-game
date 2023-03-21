@@ -5,7 +5,7 @@ pub mod systems;
 pub mod resources;
 
 use systems::*;
-use resources::*;
+pub use resources::*;
 
 pub struct PlayerPlugin;
 

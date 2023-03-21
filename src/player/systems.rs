@@ -6,8 +6,9 @@ use bevy_rapier2d::prelude::*;
 
 const AIM_SPEED: f32 = 10.;
 const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
-const MISSILE_POWER_VELOCITY: f32 = 0.25;
-const MISSILE_MASS: f32 = 20.;
+pub const MISSILE_POWER_VELOCITY: f32 = 0.25;
+const MISSILE_MASS: f32 = 25.;
+pub const MISSILE_POWER_VELOCITY_MAX_MULTIPLIER: f32 = 25.;
 
 pub fn spawn_player(
     mut commands: Commands,
@@ -90,7 +91,7 @@ pub fn add_power(
     if keyboard_input.pressed(KeyCode::Space) {
         if power.reverse == false {
             power.total += MISSILE_POWER_VELOCITY;
-            if power.total == MISSILE_POWER_VELOCITY * 10. {
+            if power.total == MISSILE_POWER_VELOCITY * MISSILE_POWER_VELOCITY_MAX_MULTIPLIER {
                 power.reverse = true;
             }
         } else if power.reverse == true {

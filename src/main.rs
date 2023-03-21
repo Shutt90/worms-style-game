@@ -4,9 +4,12 @@ use bevy_rapier2d::prelude::*;
 
 mod player;
 mod target;
+mod power_bar;
+
 
 use player::PlayerPlugin;
 use target::TargetPlugin;
+use power_bar::PowerBarPlugin;
 
 fn main() {
     App::new()
@@ -15,6 +18,7 @@ fn main() {
         .add_startup_system(spawn_camera)
         .add_plugin(PlayerPlugin)
         .add_plugin(TargetPlugin)
+        .add_plugin(PowerBarPlugin)
         .run();
 }
 

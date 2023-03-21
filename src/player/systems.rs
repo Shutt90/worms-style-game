@@ -4,11 +4,7 @@ use super::components::*;
 use crate::player::Power;
 use bevy_rapier2d::prelude::*;
 
-const AIM_SPEED: f32 = 10.;
-const CROSSHAIR_DISTANCE_FROM_PLAYER: f32 = 70.;
-pub const MISSILE_POWER_VELOCITY: f32 = 0.25;
-const MISSILE_MASS: f32 = 25.;
-pub const MISSILE_POWER_VELOCITY_MAX_MULTIPLIER: f32 = 25.;
+use super::super::constants::*;
 
 pub fn spawn_player(
     mut commands: Commands,

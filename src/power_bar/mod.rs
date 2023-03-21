@@ -4,7 +4,6 @@ pub mod components;
 pub mod systems;
 
 use systems::*;
-
 pub struct PowerBarPlugin;
 
 impl Plugin for PowerBarPlugin {

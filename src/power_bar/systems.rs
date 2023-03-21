@@ -1,9 +1,11 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use crate::player::Power;
-use crate::player::systems::*;
 
 use super::components::*;
+
+use super::super::constants::*;
+
 
 pub fn spawn_bar(
     mut commands: Commands,

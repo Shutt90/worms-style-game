@@ -5,7 +5,7 @@ use bevy_rapier2d::prelude::*;
 mod player;
 mod target;
 mod power_bar;
-
+mod constants;
 
 use player::PlayerPlugin;
 use target::TargetPlugin;

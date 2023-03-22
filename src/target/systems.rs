@@ -51,17 +51,13 @@ pub fn destroy_target(
     mut commands: Commands,
     mut target_query: Query<Entity, With<Target>>,
     missile_query: Query<Entity, With<Missile>>,
-
-    mut collision_events: EventReader<CollisionEvent>,
     rapier_context: Res<RapierContext>,
 ) {
     for missile_entity in missile_query.iter()  {
-        for mut target_entity in target_query.iter_mut()  {
+        for target_entity in target_query.iter_mut()  {
             if let Some(_contact_pair) = rapier_context.contact_pair(missile_entity, target_entity) {
-                for collision_event in collision_events.iter() {
-                    println!("Received collision event: {:?}", collision_event);
-                    commands.entity(target_entity).despawn();
-                }
+                commands.entity(target_entity).despawn();
+                commands.entity(missile_entity).despawn();
             }
         }
     }

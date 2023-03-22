@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use super::components::*;
-use crate::player::Power;
+use crate::game::player::Power;
 use bevy_rapier2d::prelude::*;
 
-use super::super::constants::*;
+use crate::constants::*;
 
 pub fn spawn_player(
     mut commands: Commands,

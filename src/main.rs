@@ -2,23 +2,20 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use bevy_rapier2d::prelude::*;
 
-mod player;
-mod target;
-mod power_bar;
-mod constants;
+pub mod constants;
+pub mod game;
+pub mod menu;
 
-use player::PlayerPlugin;
-use target::TargetPlugin;
-use power_bar::PowerBarPlugin;
+use game::GamePlugin;
+use menu::MenuPlugin;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_plugin(MenuPlugin)
+        .add_plugin(GamePlugin)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .add_startup_system(spawn_camera)
-        .add_plugin(PlayerPlugin)
-        .add_plugin(TargetPlugin)
-        .add_plugin(PowerBarPlugin)
         .run();
 }
 

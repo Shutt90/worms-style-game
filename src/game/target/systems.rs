@@ -5,9 +5,9 @@ use bevy_rapier2d::prelude::*;
 
 use super::components::*;
 use super::resources::*;
-use crate::player::components::*;
+use crate::game::player::components::*;
 
-use super::super::constants::*;
+use crate::constants::*;
 
 pub fn spawn_target(
     mut commands: Commands,

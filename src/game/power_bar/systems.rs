@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
-use crate::player::Power;
+
+use crate::game::player::Power;
 
 use super::components::*;
-
-use super::super::constants::*;
+use crate::constants::*;
 
 
 pub fn spawn_bar(

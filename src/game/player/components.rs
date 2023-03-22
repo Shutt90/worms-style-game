@@ -13,13 +13,6 @@ pub struct Aim {
     pub h: f32,
 }
 
-pub const SPRITE_SIZE: BlockSize = BlockSize{w:25., h:100.};
-
-pub struct BlockSize {
-    pub w: f32,
-    pub h: f32,
-}
-
 #[derive(Debug)]
 pub struct Position {
     pub x: f32,

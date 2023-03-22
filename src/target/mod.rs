@@ -10,6 +10,7 @@ pub struct TargetPlugin;
 
 impl Plugin for TargetPlugin {
     fn build (&self, app: &mut App) {
-        app.add_startup_system(spawn_target);
+        app.add_startup_system(spawn_target)
+            .add_system(destroy_target);
     }
 }

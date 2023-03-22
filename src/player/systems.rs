@@ -111,26 +111,28 @@ pub fn fire_projectile(
     position: Position
 ) {
     commands.spawn(
-        RigidBody::Dynamic
-    )
-    .insert(SpriteBundle {
-        sprite: Sprite {
-            color: Color::RED,
-            custom_size: Some(Vec2::new(MISSLE_SIZE, MISSLE_SIZE)),
+            RigidBody::Dynamic
+        )
+        .insert((SpriteBundle {
+            sprite: Sprite {
+                color: Color::RED,
+                custom_size: Some(Vec2::new(MISSLE_SIZE, MISSLE_SIZE)),
+                ..default()
+            },
             ..default()
         },
-        ..default()
-    })
-    .insert(Velocity {
-        linvel: Vec2::new(position.x * power.total, position.y* power.total),
-        angvel: 0.6
-    })
-    .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
-    .insert(GravityScale(1.))
-    .insert(AdditionalMassProperties::Mass(MISSILE_MASS))
-    .insert(Collider::cuboid(MISSLE_SIZE / 2., MISSLE_SIZE / 2.));
-
-    println!("fired_projectile: {:?} distance", power.total);
+        Missile {}
+    )
+    )
+        .insert(Velocity {
+            linvel: Vec2::new(position.x * power.total, position.y* power.total),
+            angvel: 0.6
+        })
+        .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
+        .insert(GravityScale(1.))
+        .insert(AdditionalMassProperties::Mass(MISSILE_MASS))
+        .insert(Collider::cuboid(MISSLE_SIZE / 2., MISSLE_SIZE / 2.));
+    
 
     power.total = 0.;
     power.reverse = false;

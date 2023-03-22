@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use rand::prelude::*;
-use bevy_rapier2d::prelude::Collider;
+use bevy_rapier2d::prelude::*;
 
 use super::components::*;
 use super::resources::*;
@@ -41,6 +41,28 @@ pub fn spawn_target(
                 },
                 Target{},
             )
-        ).insert(Collider::cuboid(SPRITE_SIZE.w / 2., SPRITE_SIZE.h / 2.));
+        )
+        .insert(Collider::cuboid(SPRITE_SIZE.w / 2., SPRITE_SIZE.h / 2.))
+        .insert(ActiveEvents::COLLISION_EVENTS);
+    }
+}
+
+pub fn destroy_target(
+    mut commands: Commands,
+    mut target_query: Query<Entity, With<Target>>,
+    missile_query: Query<Entity, With<Missile>>,
+
+    mut collision_events: EventReader<CollisionEvent>,
+    rapier_context: Res<RapierContext>,
+) {
+    for missile_entity in missile_query.iter()  {
+        for mut target_entity in target_query.iter_mut()  {
+            if let Some(_contact_pair) = rapier_context.contact_pair(missile_entity, target_entity) {
+                for collision_event in collision_events.iter() {
+                    println!("Received collision event: {:?}", collision_event);
+                    commands.entity(target_entity).despawn();
+                }
+            }
+        }
     }
 }

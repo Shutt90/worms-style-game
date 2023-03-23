@@ -3,10 +3,12 @@ use bevy::prelude::*;
 pub mod player;
 mod power_bar;
 pub mod target;
+pub mod timer;
 
 use player::*;
 use power_bar::*;
 use target::*;
+use timer::*;
 
 pub struct GamePlugin;
 
@@ -15,7 +17,8 @@ impl Plugin for GamePlugin {
         app
         .add_plugin(PlayerPlugin)
         .add_plugin(TargetPlugin)
-        .add_plugin(PowerBarPlugin);
+        .add_plugin(PowerBarPlugin)
+        .add_plugin(TimerPlugin);
     }
 }
 

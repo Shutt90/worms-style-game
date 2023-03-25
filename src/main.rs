@@ -12,6 +12,7 @@ use menu::MenuPlugin;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .add_state::<AppState>()
         .add_plugin(MenuPlugin)
         .add_plugin(GamePlugin)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
@@ -35,8 +36,8 @@ fn spawn_camera(
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
-    #[default]
     MainMenu,
+    #[default]
     Game,
     GameOver,
 }

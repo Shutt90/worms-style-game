@@ -9,7 +9,15 @@ use crate::constants::*;
 pub fn spawn_main_menu(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    audio: Res<Audio>
 ) {
+    let music = asset_server.load("audio/menu_music.ogg");
+    audio.play_with_settings(music, PlaybackSettings {
+        repeat: true,
+        // TODO: get volume from config
+        ..default()
+    });
+
     let main_menu: MainMenu = MainMenu {
         node_list: &[
             "Play Game",

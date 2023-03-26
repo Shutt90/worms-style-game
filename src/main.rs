@@ -11,7 +11,10 @@ use menu::MenuPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(AssetPlugin {
+            watch_for_changes: true,
+            ..Default::default()
+        }))
         .add_state::<AppState>()
         .add_plugin(MenuPlugin)
         .add_plugin(GamePlugin)
@@ -36,8 +39,8 @@ fn spawn_camera(
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum AppState {
-    MainMenu,
     #[default]
+    MainMenu,
     Game,
     GameOver,
 }

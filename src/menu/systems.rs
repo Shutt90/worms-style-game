@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use super::components::*;
+
 const NODE_LIST: &'static [&'static str] = &[
     "Play Game",
     "Practice Mode",
@@ -26,7 +28,7 @@ pub fn spawn_main_menu(
         ..default()
     }).with_children(| parent | {
         for val in NODE_LIST {
-            parent.spawn(NodeBundle {
+            parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
                         width: Val::Percent(40.),
@@ -44,7 +46,9 @@ pub fn spawn_main_menu(
                 },
                 background_color: Color::BLACK.into(),
                 ..default()
-            })
+            },
+            MenuItem{},
+        ))
             .with_children(|parent| {
                 // text
                 parent.spawn((

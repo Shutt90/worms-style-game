@@ -1,7 +1,6 @@
 use bevy::prelude::*; 
-
-
 mod systems;
+pub mod components;
 
 use systems::*;
 

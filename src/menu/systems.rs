@@ -1,7 +1,15 @@
 use bevy::prelude::*;
 
+const NODE_LIST: &'static [&'static str] = &[
+    "Play Game",
+    "Practice Mode",
+    "Settings",
+    "Game Over"
+];
+
 pub fn spawn_main_menu(
     mut commands: Commands,
+    asset_server: Res<AssetServer>,
 ) {
     commands.spawn(NodeBundle {
         style: Style {
@@ -17,56 +25,44 @@ pub fn spawn_main_menu(
         },
         ..default()
     }).with_children(| parent | {
-        parent.spawn(NodeBundle {
-            style: Style {
-                size: Size {
-                    width: Val::Percent(40.),
-                    height: Val::Percent(20.),
-                },
-                margin: UiRect {
-                    top: Val::Percent(0.75),
-                    bottom: Val::Px(0.75),
+        for val in NODE_LIST {
+            parent.spawn(NodeBundle {
+                style: Style {
+                    size: Size {
+                        width: Val::Percent(40.),
+                        height: Val::Percent(20.),
+                    },
+                    margin: UiRect {
+                        top: Val::Percent(0.75),
+                        bottom: Val::Px(0.75),
+                        ..default()
+                    },
+                    border: UiRect::all(Val::Px(2.0)),
                     ..default()
                 },
-                border: UiRect::all(Val::Px(2.0)),
+                background_color: Color::WHITE.into(),
                 ..default()
-            },
-            background_color: Color::WHITE.into(),
-            ..default()
-        });
-        parent.spawn(NodeBundle {
-            style: Style {
-                size: Size {
-                    width: Val::Percent(40.),
-                    height: Val::Percent(20.),
-                },
-                margin: UiRect {
-                    top: Val::Percent(0.75),
-                    bottom: Val::Px(0.75),
-                    ..default()
-                },
-                border: UiRect::all(Val::Px(2.0)),
-                ..default()
-            },
-            background_color: Color::BLACK.into(),
-            ..default()
-        });
-        parent.spawn(NodeBundle {
-            style: Style {
-                size: Size {
-                    width: Val::Percent(40.),
-                    height: Val::Percent(20.),
-                },
-                margin: UiRect {
-                    top: Val::Percent(0.75),
-                    bottom: Val::Px(0.75),
-                    ..default()
-                },
-                border: UiRect::all(Val::Px(2.0)),
-                ..default()
-            },
-            background_color: Color::ORANGE_RED.into(),
-            ..default()
-        });
+            })
+            .with_children(|parent| {
+                // text
+                parent.spawn((
+                    TextBundle::from_section(
+                        val.to_string(),
+                        TextStyle {
+                            font: asset_server.load("src/fonts/Roboto-Thin.ttf"),
+                            font_size: 20.0,
+                            color: Color::BLUE,
+                        },
+                    )
+                    .with_style(Style {
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        margin: UiRect::all(Val::Px(5.0)),
+                        ..default()
+                    }),
+                    Label,
+                ));
+            });
+        }
     });
 }

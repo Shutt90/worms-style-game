@@ -88,10 +88,6 @@ pub fn click_menu_item(
             for (i, menu_item) in query_list.iter().enumerate() {
                 match i{
                     0=> {
-                        println!("{:?}", menu_item.translation().y - (window.height() / MENU_ITEM_SCALING / 2.));
-                        println!("{:?}", position.y);
-                        println!("{:?}", menu_item.translation().y + (window.height() / MENU_ITEM_SCALING / 2.));
-
                         if position.y >= menu_item.translation().y - calculated_item_window && position.y <= menu_item.translation().y + calculated_item_window {
                             app_exit_event_writer.send(AppExit)
                         }

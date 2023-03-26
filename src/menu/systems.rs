@@ -59,7 +59,6 @@ pub fn spawn_main_menu(
             MenuItem{},
         ))
             .with_children(|parent| {
-                // text
                 parent.spawn((
                     TextBundle::from_section(
                         text.to_string(),
@@ -78,6 +77,25 @@ pub fn spawn_main_menu(
             });
         }
     });
+}
+
+pub fn despawn_main_menu(
+    mut commands: Commands,
+    query_menu: Query<Entity, With<MainMenu>>,
+    query_menu_items: Query<Entity, With<MenuItem>>,
+    query_text_labels: Query<Entity, With<Label>>,    
+
+) {
+    // TODO: CLEAN THIS UP
+    if let Ok(menu_entity) = query_menu.get_single() {
+        commands.entity(menu_entity).despawn();
+        for item in query_menu_items.iter() {
+            commands.entity(item).despawn()
+        }
+        for label in query_text_labels.iter() {
+            commands.entity(label).despawn()
+        }
+    }
 }
 
 pub fn click_menu_item(
@@ -101,7 +119,6 @@ pub fn click_menu_item(
                             position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
                             position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
                         {
-                            println!("{:?}, {:?}. {:?}", position.x, menu_item.translation().x - calculated_menu_item_width, menu_item.translation().x + calculated_menu_item_width);
                             app_exit_event_writer.send(AppExit)
                         }
                     },

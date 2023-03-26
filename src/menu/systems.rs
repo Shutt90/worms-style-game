@@ -1,6 +1,8 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, window::PrimaryWindow};
+use bevy::app::AppExit;
 
 use super::components::*;
+use crate::constants::*;
 
 const NODE_LIST: &'static [&'static str] = &[
     "Play Game",
@@ -31,15 +33,15 @@ pub fn spawn_main_menu(
             parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
-                        width: Val::Percent(40.),
-                        height: Val::Percent(20.),
+                        width: Val::Percent(MENU_ITEM_SCALING * 2.),
+                        height: Val::Percent(MENU_ITEM_SCALING),
                     },
                     margin: UiRect {
-                        top: Val::Percent(0.75),
-                        bottom: Val::Px(0.75),
+                        top: Val::Percent(MENU_ITEM_SCALING / 100. * 3.5),
+                        bottom: Val::Px(MENU_ITEM_SCALING / 100. * 3.5),
                         ..default()
                     },
-                    border: UiRect::all(Val::Px(2.0)),
+                    border: UiRect::all(Val::Px(MENU_ITEM_SCALING / 10.)),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
@@ -56,7 +58,7 @@ pub fn spawn_main_menu(
                         val.to_string(),
                         TextStyle {
                             font: asset_server.load("fonts/Roboto-Thin.ttf"),
-                            font_size: 50.,
+                            font_size: MENU_ITEM_SCALING * 2.5,
                             color: Color::WHITE,
                         },
                     )
@@ -70,3 +72,33 @@ pub fn spawn_main_menu(
         }
     });
 }
+
+pub fn click_menu_item(
+    mouse_click_events: Res<Input<MouseButton>>,
+    query_list: Query<&Transform, With<MenuItem>>,
+    window: Query<&Window, With<PrimaryWindow>>,
+    mut app_exit_event_writer: EventWriter<AppExit>,
+
+) {
+    let window = window.get_single().unwrap();
+    
+    if mouse_click_events.just_pressed(MouseButton::Left) {
+        if let Some(position) = window.cursor_position() {
+            println!("{:?}", position.to_string());
+            for (i, item) in query_list.iter().enumerate() {
+                match i{
+                    0=> {},
+                    1=> {},
+                    2=> {},
+                    3=> {
+                        if item.translation.y == position.y {
+                            app_exit_event_writer.send(AppExit)
+                        }
+                    }
+                    _=>println!("No menu item for this implemented")
+                }
+            }
+        }
+    }
+}
+

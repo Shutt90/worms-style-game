@@ -1,3 +1,5 @@
+use bevy::input::keyboard::KeyCode;
+
 pub struct BlockSize {
     pub w: f32,
     pub h: f32,

@@ -75,7 +75,7 @@ pub fn spawn_main_menu(
 
 pub fn click_menu_item(
     mouse_click_events: Res<Input<MouseButton>>,
-    query_list: Query<&Transform, With<MenuItem>>,
+    query_list: Query<&GlobalTransform, With<MenuItem>>,
     window: Query<&Window, With<PrimaryWindow>>,
     mut app_exit_event_writer: EventWriter<AppExit>,
 
@@ -84,20 +84,26 @@ pub fn click_menu_item(
     
     if mouse_click_events.just_pressed(MouseButton::Left) {
         if let Some(position) = window.cursor_position() {
-            println!("{:?}", position.to_string());
-            for (i, item) in query_list.iter().enumerate() {
+            let calculated_item_window = (window.height() / MENU_ITEM_SCALING * 2.);
+            for (i, menu_item) in query_list.iter().enumerate() {
                 match i{
-                    0=> {},
+                    0=> {
+                        println!("{:?}", menu_item.translation().y - (window.height() / MENU_ITEM_SCALING / 2.));
+                        println!("{:?}", position.y);
+                        println!("{:?}", menu_item.translation().y + (window.height() / MENU_ITEM_SCALING / 2.));
+
+                        if position.y >= menu_item.translation().y - calculated_item_window && position.y <= menu_item.translation().y + calculated_item_window {
+                            app_exit_event_writer.send(AppExit)
+                        }
+                    },
                     1=> {},
                     2=> {},
                     3=> {
-                        if item.translation.y == position.y {
-                            app_exit_event_writer.send(AppExit)
-                        }
                     }
                     _=>println!("No menu item for this implemented")
                 }
             }
+     
         }
     }
 }

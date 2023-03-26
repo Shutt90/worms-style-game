@@ -4,7 +4,7 @@ const NODE_LIST: &'static [&'static str] = &[
     "Play Game",
     "Practice Mode",
     "Settings",
-    "Game Over"
+    "Exit Game"
 ];
 
 pub fn spawn_main_menu(
@@ -38,9 +38,11 @@ pub fn spawn_main_menu(
                         ..default()
                     },
                     border: UiRect::all(Val::Px(2.0)),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
                     ..default()
                 },
-                background_color: Color::WHITE.into(),
+                background_color: Color::BLACK.into(),
                 ..default()
             })
             .with_children(|parent| {
@@ -49,14 +51,12 @@ pub fn spawn_main_menu(
                     TextBundle::from_section(
                         val.to_string(),
                         TextStyle {
-                            font: asset_server.load("src/fonts/Roboto-Thin.ttf"),
-                            font_size: 20.0,
-                            color: Color::BLUE,
+                            font: asset_server.load("fonts/Roboto-Thin.ttf"),
+                            font_size: 50.,
+                            color: Color::WHITE,
                         },
                     )
                     .with_style(Style {
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
                         margin: UiRect::all(Val::Px(5.0)),
                         ..default()
                     }),

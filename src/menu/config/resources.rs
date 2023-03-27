@@ -3,6 +3,7 @@ use bevy::prelude::*;
 #[derive(Resource)]
 pub struct Config {
     pub controls: Controls,
+    pub volume: i8,
     pub fullscreen: bool,
 }
 
@@ -17,7 +18,8 @@ impl Default for Config {
     fn default() -> Config {
         Config {
             fullscreen: false,
-            controls: Controls::default()
+            controls: Controls::default(),
+            volume: 5
         }
     }
 }

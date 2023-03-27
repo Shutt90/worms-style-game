@@ -2,6 +2,7 @@ use bevy::{prelude::*, window::PrimaryWindow};
 use bevy::app::AppExit;
 
 use crate::AppState;
+use crate::menu::MenuState;
 
 use super::components::*;
 use crate::constants::*;
@@ -135,7 +136,7 @@ pub fn click_menu_item(
                             position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
                             position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
                         {
-                            println!("menu item 3")
+                            commands.insert_resource(NextState(Some(MenuState::Config)));
                         }
                     },
                     2=> {

@@ -14,3 +14,4 @@ pub const MISSLE_SIZE: f32 = 10.;
 pub const SPRITE_SIZE: BlockSize = BlockSize{w:32., h:32.};
 
 pub const MENU_ITEM_SCALING: f32 = 20.;
+pub const CONFIG_MENU_ITEM_SCALING: f32 = 15.;

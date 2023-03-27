@@ -19,6 +19,7 @@ impl Plugin for MenuPlugin {
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum MenuState {
     #[default]
-    MainMenu,
-    ConfigMenu
+    Main,
+    Config,
+    Exited
 }

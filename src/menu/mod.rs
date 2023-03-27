@@ -21,5 +21,6 @@ pub enum MenuState {
     #[default]
     Main,
     Config,
+    Controls,
     Exited
 }

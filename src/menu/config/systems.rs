@@ -1,9 +1,10 @@
-use bevy::{prelude::*, input::keyboard::KeyboardInput};
+use bevy::{prelude::*, window::PrimaryWindow, input::keyboard::KeyboardInput};
 
 use super::resources::*;
 use super::components::*;
 
 use crate::constants::*;
+use crate::menu::MenuState;
 
 pub fn spawn_config_menu(
     mut commands: Commands,
@@ -77,6 +78,87 @@ pub fn spawn_config_menu(
             });
         }
     });
+}
+
+pub fn despawn_config_menu(
+    mut commands: Commands,
+    query_menu: Query<Entity, With<ConfigMenu>>,
+    query_menu_items: Query<Entity, With<MenuItem>>,
+    query_text_labels: Query<Entity, With<Label>>,    
+
+) {
+    // TODO: CLEAN THIS UP
+    if let Ok(menu_entity) = query_menu.get_single() {
+        commands.entity(menu_entity).despawn();
+        for item in query_menu_items.iter() {
+            commands.entity(item).despawn()
+        }
+        for label in query_text_labels.iter() {
+            commands.entity(label).despawn()
+        }
+    }
+}
+
+pub fn click_menu_item(
+    mut commands: Commands,
+    mouse_click_events: Res<Input<MouseButton>>,
+    query_list: Query<&GlobalTransform, With<MenuItem>>,
+    window: Query<&Window, With<PrimaryWindow>>,
+) {
+    let window = window.get_single().unwrap();
+    
+    if mouse_click_events.just_pressed(MouseButton::Left) {
+        if let Some(position) = window.cursor_position() {
+            let calculated_menu_item_height = window.height() / MENU_ITEM_SCALING * 2.;
+            let calculated_menu_item_width = window.width() / MENU_ITEM_SCALING * 4.;
+
+            for (i, menu_item) in query_list.iter().enumerate() {
+                match i{
+                    0=> {
+                        if 
+                            position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
+                            position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
+                        {
+                            commands.insert_resource(NextState(Some(MenuState::Main)));
+                        }
+                    },
+                    1=> {
+                        if 
+                            position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
+                            position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
+                        {
+                            commands.insert_resource(NextState(Some(MenuState::Controls)));
+                        }
+                    },
+                    2=> {
+                        if 
+                            position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
+                            position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
+                        {
+                            println!("pressed menu 3")
+                        }
+                    },
+                    3=> {
+                        if 
+                            position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
+                            position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
+                        {
+                            println!("pressed menu 2")
+                        }
+                    },
+                    4=> {
+                        if 
+                            position.y >= menu_item.translation().y - calculated_menu_item_height && position.y <= menu_item.translation().y + calculated_menu_item_height &&
+                            position.x >= menu_item.translation().x - calculated_menu_item_width && position.x <= menu_item.translation().x + calculated_menu_item_width
+                        {
+                            println!("pressed menu 1")
+                        }
+                    },
+                    _=>println!("No menu item for this implemented")
+                }
+            }
+        }
+    }
 }
 
 pub fn update_config(

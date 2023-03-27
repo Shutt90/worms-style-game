@@ -10,6 +10,7 @@ use game::GamePlugin;
 use menu::MenuPlugin;
 
 fn main() {
+    unsafe { backtrace_on_stack_overflow::enable() };
     App::new()
         .add_plugins(DefaultPlugins.set(AssetPlugin {
             watch_for_changes: true,

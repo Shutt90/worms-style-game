@@ -2,7 +2,7 @@ use bevy::{prelude::*, input::keyboard::KeyboardInput};
 use super::resources::*;
 
 pub fn update_config(
-    config: Res<Config>,
+    _config: Res<Config>,
     mut key_evr: EventReader<KeyboardInput>,
 ){
     use bevy::input::ButtonState;

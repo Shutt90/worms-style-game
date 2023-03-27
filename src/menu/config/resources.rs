@@ -17,7 +17,7 @@ impl Default for Config {
     fn default() -> Config {
         Config {
             fullscreen: false,
-            ..default()
+            controls: Controls::default()
         }
     }
 }

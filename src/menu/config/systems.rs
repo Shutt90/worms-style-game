@@ -34,45 +34,33 @@ pub fn spawn_config_menu(
             },
             ..default()
         },
-        main_menu,
+        main_menu.clone(),
     ))
     .with_children(| parent | {
         for (key, val) in main_menu.node_list.iter() {
             parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
-                        width: Val::Percent(50.),
-                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING),
+                        width: Val::Percent(CONFIG_MENU_ITEM_SCALING * 3.),
+                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 2.),
                     },
-                    margin: UiRect {
-                        top: Val::Percent(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                        bottom: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                        ..default()
-                    },
-                    border: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 10.)),
                     flex_direction: FlexDirection::Row,
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                background_color: Color::BLACK.into(),
                 ..default()
             },
             MenuItem{},
-        ));
-        parent.spawn((NodeBundle{
+        ))
+        .with_children(|parent| {
+            parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
                         width: Val::Percent(50.),
-                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING),
+                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 5.),
                     },
-                    margin: UiRect {
-                        top: Val::Percent(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                        bottom: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                        left: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                        right: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)
-                    },
-                    border: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 10.)),
+                    margin: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
@@ -91,11 +79,7 @@ pub fn spawn_config_menu(
                         font_size: CONFIG_MENU_ITEM_SCALING * 2.5,
                         color: Color::WHITE,
                     },
-                )
-                .with_style(Style {
-                    margin: UiRect::all(Val::Px(5.0)),
-                    ..default()
-                }),
+                ),
                 Label,
             ));
         });
@@ -103,15 +87,9 @@ pub fn spawn_config_menu(
             style: Style {
                 size: Size {
                     width: Val::Percent(50.),
-                    height: Val::Percent(CONFIG_MENU_ITEM_SCALING),
+                    height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 5.),
                 },
-                margin: UiRect {
-                    top: Val::Percent(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                    bottom: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                    left: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5),
-                    right: Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)
-                },
-                border: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 10.)),
+                margin: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)),
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
                 ..default()
@@ -130,16 +108,13 @@ pub fn spawn_config_menu(
                         font_size: CONFIG_MENU_ITEM_SCALING * 2.5,
                         color: Color::WHITE,
                     },
-                )
-                .with_style(Style {
-                    margin: UiRect::all(Val::Px(5.0)),
-                    ..default()
-                }),
+                ),
                 Label,
             ));
         });
-        }
     });
+}
+});
 }
 
 pub fn despawn_config_menu(

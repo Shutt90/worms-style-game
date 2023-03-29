@@ -3,6 +3,7 @@ use bevy::app::AppExit;
 
 use crate::AppState;
 use crate::menu::MenuState;
+use crate::menu::config::resources::Config;
 
 use super::components::*;
 use crate::constants::*;
@@ -10,12 +11,13 @@ use crate::constants::*;
 pub fn spawn_main_menu(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    audio: Res<Audio>
+    audio: Res<Audio>,
+    config: Res<Config>,
 ) {
     let music = asset_server.load("audio/menu_music.ogg");
     audio.play_with_settings(music, PlaybackSettings {
         repeat: true,
-        // TODO: get volume from config
+        volume: config.volume as f32,
         ..default()
     });
 

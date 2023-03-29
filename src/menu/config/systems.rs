@@ -17,7 +17,7 @@ pub fn spawn_config_menu(
         "Volume".to_string(), "10".to_string(),
     );
     main_menu.node_list.insert(
-        "Full Screen".to_string(), "Yes".to_string(),
+        "Full Screen".to_string(), "No".to_string(),
     );
 
     commands.spawn((
@@ -47,6 +47,7 @@ pub fn spawn_config_menu(
                     flex_direction: FlexDirection::Row,
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
+                    margin: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 100.)),
                     ..default()
                 },
                 ..default()
@@ -58,7 +59,7 @@ pub fn spawn_config_menu(
                 style: Style {
                     size: Size {
                         width: Val::Percent(50.),
-                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 5.),
+                        height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 4.),
                     },
                     margin: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)),
                     justify_content: JustifyContent::Center,
@@ -87,7 +88,7 @@ pub fn spawn_config_menu(
             style: Style {
                 size: Size {
                     width: Val::Percent(50.),
-                    height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 5.),
+                    height: Val::Percent(CONFIG_MENU_ITEM_SCALING * 4.),
                 },
                 margin: UiRect::all(Val::Px(CONFIG_MENU_ITEM_SCALING / 100. * 3.5)),
                 justify_content: JustifyContent::Center,

@@ -1,35 +1,18 @@
 use bevy::prelude::*;
 
-#[derive(Resource)]
+#[derive(Resource, Clone, Reflect)]
 pub struct Config {
-    pub controls: Controls,
+    pub difficulty: String,
     pub volume: i8,
-    pub fullscreen: bool,
-}
-
-#[derive(Resource)]
-pub struct Controls {
-    pub up: KeyCode,
-    pub down: KeyCode,
-    pub fire: KeyCode
+    pub fullscreen: String,
 }
 
 impl Default for Config {
     fn default() -> Config {
         Config {
-            fullscreen: false,
-            controls: Controls::default(),
+            difficulty: "Medium".to_string(),
+            fullscreen: "Off".to_string(),
             volume: 5
-        }
-    }
-}
-
-impl Default for Controls {
-    fn default() -> Controls {
-        Controls {
-            up: KeyCode::W,
-            down: KeyCode::S,
-            fire: KeyCode::Space
         }
     }
 }

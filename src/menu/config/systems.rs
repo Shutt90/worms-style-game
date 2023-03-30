@@ -1,24 +1,15 @@
 use bevy::{prelude::*, window::PrimaryWindow, input::keyboard::KeyboardInput};
 use super::resources::*;
 use super::components::*;
-
 use crate::constants::*;
 use crate::menu::MenuState;
 
 pub fn spawn_config_menu(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    config: Res<Config>,
 ) {
     let mut main_menu: ConfigMenu = ConfigMenu::default();
-    main_menu.node_list.insert(
-        "Difficulty".to_string(), "Medium".to_string(),
-    );
-    main_menu.node_list.insert(
-        "Volume".to_string(), "10".to_string(),
-    );
-    main_menu.node_list.insert(
-        "Full Screen".to_string(), "No".to_string(),
-    );
 
     commands.spawn((
         NodeBundle {
@@ -37,7 +28,7 @@ pub fn spawn_config_menu(
         main_menu.clone(),
     ))
     .with_children(| parent | {
-        for (key, val) in main_menu.node_list.iter() {
+        for (key, val) in config.iter_fields().enumerate() {
             parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
@@ -103,7 +94,7 @@ pub fn spawn_config_menu(
         .with_children(|parent| {
             parent.spawn((
                 TextBundle::from_section(
-                    val.to_string(),
+                    "",
                     TextStyle {
                         font: asset_server.load("fonts/Roboto-Thin.ttf"),
                         font_size: CONFIG_MENU_ITEM_SCALING * 2.5,

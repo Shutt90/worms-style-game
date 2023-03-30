@@ -12,7 +12,7 @@ impl Default for Config {
         Config {
             difficulty: "Medium".to_string(),
             fullscreen: "Off".to_string(),
-            volume: 5
+            volume: 2
         }
     }
 }

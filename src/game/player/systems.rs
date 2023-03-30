@@ -131,7 +131,8 @@ pub fn fire_projectile(
         .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
         .insert(GravityScale(1.))
         .insert(AdditionalMassProperties::Mass(MISSILE_MASS))
-        .insert(Collider::cuboid(MISSLE_SIZE / 2., MISSLE_SIZE / 2.));
+        .insert(Collider::cuboid(MISSLE_SIZE / 2., MISSLE_SIZE / 2.))
+        .insert(GravityScale(2.));
     
 
     power.total = 0.;

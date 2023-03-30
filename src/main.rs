@@ -20,11 +20,11 @@ fn main() {
         .add_plugin(MenuPlugin)
         .add_plugin(GamePlugin)
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-        .add_startup_system(spawn_camera)
+        .add_startup_system(setup)
         .run();
 }
 
-fn spawn_camera(
+fn setup(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
 ) {

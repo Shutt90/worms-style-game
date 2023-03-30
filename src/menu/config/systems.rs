@@ -9,7 +9,7 @@ pub fn spawn_config_menu(
     asset_server: Res<AssetServer>,
     config: Res<Config>,
 ) {
-    let mut main_menu: ConfigMenu = ConfigMenu::default();
+    let main_menu: ConfigMenu = ConfigMenu::default();
 
     commands.spawn((
         NodeBundle {
@@ -28,7 +28,7 @@ pub fn spawn_config_menu(
         main_menu.clone(),
     ))
     .with_children(| parent | {
-        for (key, val) in config.iter_fields().enumerate() {
+        for (i, val) in config.iter_fields().enumerate() {
             parent.spawn((NodeBundle{
                 style: Style {
                     size: Size {
@@ -65,7 +65,7 @@ pub fn spawn_config_menu(
         .with_children(|parent| {
             parent.spawn((
                 TextBundle::from_section(
-                    key.to_string(),
+                    "",
                     TextStyle {
                         font: asset_server.load("fonts/Roboto-Thin.ttf"),
                         font_size: CONFIG_MENU_ITEM_SCALING * 2.5,

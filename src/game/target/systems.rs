@@ -12,6 +12,7 @@ use crate::constants::*;
 pub fn spawn_target(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>
 ) {
     let window = window_query.get_single().unwrap();
 
@@ -31,11 +32,7 @@ pub fn spawn_target(
         commands.spawn(
             (
                 SpriteBundle {
-                    sprite: Sprite {
-                        color: Color::RED,
-                        custom_size: Some(Vec2::new(SPRITE_SIZE.w, SPRITE_SIZE.h)),
-                        ..default()
-                    },
+                    texture: asset_server.load("sprites/tanks_tankDesert1.png"),
                     transform: Transform::from_xyz(random_x, random_y, 0.),
                     ..default()
                 },

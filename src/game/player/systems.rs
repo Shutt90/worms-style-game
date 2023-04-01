@@ -9,6 +9,7 @@ use crate::constants::*;
 pub fn spawn_player(
     mut commands: Commands,
     window_query: Query<&Window, With<PrimaryWindow>>,
+    asset_server: Res<AssetServer>,
 ) {
     let window = window_query.get_single().unwrap();
     let player = Player{
@@ -20,11 +21,7 @@ pub fn spawn_player(
     commands.spawn(
         (
             SpriteBundle {
-                sprite: Sprite {
-                    color: Color::BLUE,
-                    custom_size: Some(Vec2::new(SPRITE_SIZE.w, SPRITE_SIZE.h)),
-                    ..default()
-                },
+                texture: asset_server.load("sprites/tanks_tankGreen1.png"),
                 transform: Transform::from_xyz(player.x, player.y, player.z),
                 ..default()
             },
@@ -32,12 +29,13 @@ pub fn spawn_player(
         )
     );
 
-    spawn_aim_for_player(commands, player.clone())
+    spawn_aim_for_character(commands, player.clone(), asset_server)
 }
 
-pub fn spawn_aim_for_player(
+pub fn spawn_aim_for_character(
     mut commands: Commands,
     player: Player,
+    asset_server: Res<AssetServer>,
 ) {
     let crosshair: Aim = Aim {
         w: 5.,
@@ -46,11 +44,7 @@ pub fn spawn_aim_for_player(
 
     commands.spawn((
         SpriteBundle {
-            sprite: Sprite {
-                color: Color::RED,
-                custom_size: Some(Vec2::new(crosshair.w, crosshair.h)),
-                ..default()
-            },
+            texture: asset_server.load("sprites/tank_arrowFull.png"),
             transform: Transform::from_xyz(player.x + CROSSHAIR_DISTANCE_FROM_PLAYER, player.y, 0.),
             ..default()
         },
@@ -82,6 +76,7 @@ pub fn add_power(
     mut power: ResMut<Power>,
     window_query: Query<&Window, With<PrimaryWindow>>,
     aim_query: Query<&Transform, With<Aim>>,
+    asset_server: Res<AssetServer>
 ) {
     let window = window_query.get_single().unwrap();
     if keyboard_input.pressed(KeyCode::Space) {
@@ -100,7 +95,7 @@ pub fn add_power(
 
     if keyboard_input.just_released(KeyCode::Space) {
         let position = calculate_position_of_crosshair(aim_query, window);
-        fire_projectile(commands, power, window, position)
+        fire_projectile(commands, power, window, position, asset_server)
     }
 }
 
@@ -108,17 +103,14 @@ pub fn fire_projectile(
     mut commands: Commands,
     mut power: ResMut<Power>,
     window: &Window,
-    position: Position
+    position: Position,
+    asset_server: Res<AssetServer>
 ) {
     commands.spawn(
             RigidBody::Dynamic
         )
         .insert((SpriteBundle {
-            sprite: Sprite {
-                color: Color::RED,
-                custom_size: Some(Vec2::new(MISSLE_SIZE, MISSLE_SIZE)),
-                ..default()
-            },
+            texture: asset_server.load("sprites/tank_bullet3.png"),
             ..default()
         },
         Missile {}

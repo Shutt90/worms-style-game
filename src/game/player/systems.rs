@@ -21,6 +21,10 @@ pub fn spawn_player(
     commands.spawn(
         (
             SpriteBundle {
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(86., 68.)),
+                    ..default()
+                },
                 texture: asset_server.load("sprites/tanks_tankGreen1.png"),
                 transform: Transform::from_xyz(player.x, player.y, player.z),
                 ..default()
@@ -44,6 +48,10 @@ pub fn spawn_aim_for_character(
 
     commands.spawn((
         SpriteBundle {
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(64., 34.)),
+                ..default()
+            },
             texture: asset_server.load("sprites/tank_arrowFull.png"),
             transform: Transform::from_xyz(player.x + CROSSHAIR_DISTANCE_FROM_PLAYER, player.y, 0.),
             ..default()
@@ -110,6 +118,10 @@ pub fn fire_projectile(
             RigidBody::Dynamic
         )
         .insert((SpriteBundle {
+            sprite: Sprite {
+                custom_size: Some(Vec2::new(30., 21.)),
+                ..default()
+            },
             texture: asset_server.load("sprites/tank_bullet3.png"),
             ..default()
         },
@@ -118,10 +130,9 @@ pub fn fire_projectile(
     )
         .insert(Velocity {
             linvel: Vec2::new(position.x * power.total, position.y* power.total),
-            angvel: 0.6
+            angvel: -0.4
         })
         .insert(TransformBundle::from(Transform::from_xyz(window.width() / 2., window.height() / 2., 0.0)))
-        .insert(GravityScale(1.))
         .insert(AdditionalMassProperties::Mass(MISSILE_MASS))
         .insert(Collider::cuboid(MISSLE_SIZE / 2., MISSLE_SIZE / 2.))
         .insert(GravityScale(2.));

@@ -32,6 +32,10 @@ pub fn spawn_target(
         commands.spawn(
             (
                 SpriteBundle {
+                    sprite: Sprite {
+                        custom_size: Some(Vec2::new(86., 68.)),
+                        ..default()
+                    },
                     texture: asset_server.load("sprites/tanks_tankDesert1.png"),
                     transform: Transform::from_xyz(random_x, random_y, 0.),
                     ..default()

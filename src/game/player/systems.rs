@@ -32,13 +32,11 @@ pub fn spawn_player(
             player,
         )
     );
-
-    spawn_aim_for_character(commands, player.clone(), asset_server)
 }
 
 pub fn spawn_aim_for_character(
     mut commands: Commands,
-    player: Player,
+    player: Query<&Transform, With<Player>>,
     asset_server: Res<AssetServer>,
 ) {
     let crosshair: Aim = Aim {
@@ -46,19 +44,20 @@ pub fn spawn_aim_for_character(
         h: 5.
     };
 
-    commands.spawn((
-        SpriteBundle {
-            sprite: Sprite {
-                custom_size: Some(Vec2::new(64., 34.)),
+    if let Ok(player_transform) = player.get_single()  {
+        commands.spawn((
+            SpriteBundle {
+                sprite: Sprite {
+                    custom_size: Some(Vec2::new(64., 34.)),
+                    ..default()
+                },
+                texture: asset_server.load("sprites/tank_arrowFull.png"),
+                transform: Transform::from_xyz(player_transform.translation.x + CROSSHAIR_DISTANCE_FROM_PLAYER, player_transform.translation.y, 0.),
                 ..default()
             },
-            texture: asset_server.load("sprites/tank_arrowFull.png"),
-            transform: Transform::from_xyz(player.x + CROSSHAIR_DISTANCE_FROM_PLAYER, player.y, 0.),
-            ..default()
-        },
-        crosshair,
-    ));
-    
+            crosshair,
+        ));
+    }
 }
 
 pub fn control_aim(
